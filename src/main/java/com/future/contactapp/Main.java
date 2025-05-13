@@ -1,6 +1,7 @@
 package com.future.contactapp;
 
 import com.future.contactapp.persistance.ConnectionManager;
+import com.future.contactapp.persistance.ContactBroker;
 
 import java.io.*;
 import java.sql.Connection;
@@ -30,17 +31,24 @@ public class Main {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }*/
+        }
+*/
         System.out.println("Hello Contact");
 
 
         try {
             Connection connection = ConnectionManager.getConnection();
+            ContactBroker contactBroker = ContactBroker.getInstance();
+
+            contactBroker.createTable();
+            System.out.println("table created");
             ConnectionManager.closeConnection();
             System.out.println("Closed success");
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
