@@ -1,6 +1,7 @@
 package com.future.contactapp.persistance;
 
 import com.future.contactapp.model.Contact;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,14 +22,15 @@ public class ContactBroker extends Broker<Contact> {
     }
 
     protected Contact makeObject(ResultSet rs) throws SQLException {
-        Contact a = new Contact();
-        a.setId(rs.getInt(1));
-        a.setLastname(rs.getString(2));
-        a.setFirstname(rs.getString(3));
-        a.setEmail(rs.getString(4));
-        a.setEmailAdditional(rs.getString(5));
-        a.setHomepage(rs.getString(6));
-        return a;
+        Contact contact = new Contact(
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getString(3),
+                rs.getString(4),
+                rs.getString(5),
+                rs.getString(6)
+        );
+        return contact;
     }
 
     // Alle Adressen holen

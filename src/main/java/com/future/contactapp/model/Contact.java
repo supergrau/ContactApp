@@ -1,60 +1,72 @@
 package com.future.contactapp.model;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 import java.text.Collator;
 
 public class Contact implements Comparable<Contact> {
-    private int id;
-    private String lastname;
-    private String firstname;
-    private String email;
-    private String emailAdditional;
-    private String homepage;
+    private SimpleIntegerProperty id;
+    private SimpleStringProperty lastname;
+    private SimpleStringProperty firstname;
+    private SimpleStringProperty email;
+    private SimpleStringProperty emailAdditional;
+    private SimpleStringProperty homepage;
 
-    public int getId() {
-        return id;
+    public Contact(int id, String lastname, String firstname, String email, String emailAdditional, String homepage ) {
+        this.id = new SimpleIntegerProperty(id);
+        this.lastname = new SimpleStringProperty(lastname);
+        this.firstname = new SimpleStringProperty(firstname);
+        this.email = new SimpleStringProperty(email);
+        this.emailAdditional = new SimpleStringProperty(emailAdditional);
+        this.homepage = new SimpleStringProperty(homepage);
     }
 
-    public void setId(int id) {
+    public int getId() {
+        return id.get();
+    }
+
+    public void setId(SimpleIntegerProperty id) {
         this.id = id;
     }
 
     public String getLastname() {
-        return lastname;
+        return lastname.get();
     }
 
-    public void setLastname(String lastname) {
+    public void setLastname(SimpleStringProperty lastname) {
         this.lastname = lastname;
     }
 
     public String getFirstname() {
-        return firstname;
+        return firstname.get();
     }
 
-    public void setFirstname(String firstname) {
+    public void setFirstname(SimpleStringProperty firstname) {
         this.firstname = firstname;
     }
 
     public String getEmail() {
-        return email;
+        return email.get();
     }
 
-    public void setEmail(String email) {
+    public void setEmail(SimpleStringProperty email) {
         this.email = email;
     }
 
     public String getEmailAdditional() {
-        return emailAdditional;
+        return emailAdditional.get();
     }
 
-    public void setEmailAdditional(String emailAdditional) {
+    public void setEmailAdditional(SimpleStringProperty emailAdditional) {
         this.emailAdditional = emailAdditional;
     }
 
     public String getHomepage() {
-        return homepage;
+        return homepage.get();
     }
 
-    public void setHomepage(String homepage) {
+    public void setHomepage(SimpleStringProperty homepage) {
         this.homepage = homepage;
     }
 
