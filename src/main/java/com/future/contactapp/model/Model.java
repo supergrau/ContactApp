@@ -1,5 +1,6 @@
 package com.future.contactapp.model;
 
+import com.future.contactapp.persistance.ContactBroker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -12,14 +13,14 @@ public class Model {
     /**
      * Lädt die Kontakte aus der Datenbank
      *
-     * @param statement
      * @param contacts
      * @return ObservableList von Typ Contact
      */
-    public ObservableList<Contact> loadContacts(Statement statement, ObservableList<Contact> contacts) throws SQLException {
-        contacts = FXCollections.observableArrayList();
+    public ObservableList<Contact> loadContacts(ObservableList<Contact> contacts) throws Exception {
+//        contacts = FXCollections.observableArrayList();
+        contacts = FXCollections.observableList(ContactBroker.getInstance().findAll());
 
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM contact");
+ /*       ResultSet resultSet = statement.executeQuery("SELECT * FROM contact");
 
         while (resultSet.next()) {
             int id = resultSet.getInt(1);
@@ -33,6 +34,7 @@ public class Model {
         }
         contacts.add(new Contact(111,"Müller", "Martin", "mueller@gmail.com", "-","https://mueller.de"));
         contacts.add(new Contact(112,"Lehmann", "Lutz", "lehmann@gmail.com", "-","https://lehmann.de"));
+ */
         return contacts;
     }
 }

@@ -6,12 +6,12 @@ import javafx.beans.property.SimpleStringProperty;
 import java.text.Collator;
 
 public class Contact /*implements Comparable<Contact>*/ {
-    public SimpleIntegerProperty id;
-    public SimpleStringProperty lastname;
-    public SimpleStringProperty firstname;
-    public SimpleStringProperty email;
-    public SimpleStringProperty emailAdditional;
-    public SimpleStringProperty homepage;
+    private SimpleIntegerProperty id;
+    private SimpleStringProperty lastname;
+    private SimpleStringProperty firstname;
+    private SimpleStringProperty email;
+    private SimpleStringProperty emailAdditional;
+    private SimpleStringProperty homepage;
 
     public Contact(int id, String lastname, String firstname, String email, String emailAdditional, String homepage ) {
         this.id = new SimpleIntegerProperty(id);

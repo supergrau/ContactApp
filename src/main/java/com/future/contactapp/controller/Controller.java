@@ -12,6 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -58,7 +61,7 @@ public class Controller implements Initializable {
      */
     public void loadContacts(Statement statement) {
         try {
-            contacts = model.loadContacts(statement, contacts);
+            contacts = model.loadContacts(contacts);
             statement.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -75,6 +78,21 @@ public class Controller implements Initializable {
 
     }
 
+    @FXML
+    void contactTableViewClicked(MouseEvent event) {
+        int index = contactTableView.getSelectionModel().getSelectedIndex();
+        System.out.println(index);
+        System.out.println("Mouse: " + contactTableView.getItems().get(index).getLastname());
+    }
+
+    @FXML
+    void tableViewKeyPressed(KeyEvent event) {
+        if(event.getCode() == KeyCode.SPACE) {
+            int index = contactTableView.getSelectionModel().getSelectedIndex();
+            System.out.println(index);
+            System.out.println("Key: " + contactTableView.getItems().get(index).getLastname());
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {

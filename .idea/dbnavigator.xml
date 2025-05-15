@@ -31,17 +31,19 @@
     "homepage",
     "lastname")
 values (
-    "max@muster.de",
+    "rudi@mente.de",
     "email_additional",
-    "Max",
+    "Rudi",
     "-",
-    "Muster"),
-    ("horst@hoffmann.de",
+    "Mente"),
+    (
+    "Jan@Niemand.de",
     "email_additional",
-    "Horst",
-    "hoffmann.de",
-    "Hoffmann")
+    "Jan",
+    "jan.de",
+    "Niemand")
     ;
+commit ;
     
 select * from contact;]]></console>
     </connection>
