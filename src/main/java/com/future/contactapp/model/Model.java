@@ -32,6 +32,7 @@ public class Model {
             contacts.add(new Contact(id, lastname, firstname, email, emailAdditional, homepage));
         }
         contacts.add(new Contact(111,"Müller", "Martin", "mueller@gmail.com", "-","https://mueller.de"));
+        contacts.add(new Contact(112,"Lehmann", "Lutz", "lehmann@gmail.com", "-","https://lehmann.de"));
         return contacts;
     }
 }

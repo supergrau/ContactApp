@@ -50,9 +50,16 @@ public class Controller implements Initializable {
     public void closeButtonClick(ActionEvent actionEvent) {
         System.exit(0);
     }
+
+    /**
+     * Contacs in das TableView laden
+     *
+     * @param statement mit der bestehenden Verbindung zur Datenbank
+     */
     public void loadContacts(Statement statement) {
         try {
             contacts = model.loadContacts(statement, contacts);
+            statement.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -64,6 +71,8 @@ public class Controller implements Initializable {
         homepageColumn.setCellValueFactory(new PropertyValueFactory<>("homepage"));
 
         contactTableView.setItems(contacts);
+
+
     }
 
     @Override
