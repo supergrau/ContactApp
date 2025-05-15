@@ -5,13 +5,13 @@ import javafx.beans.property.SimpleStringProperty;
 
 import java.text.Collator;
 
-public class Contact implements Comparable<Contact> {
-    private SimpleIntegerProperty id;
-    private SimpleStringProperty lastname;
-    private SimpleStringProperty firstname;
-    private SimpleStringProperty email;
-    private SimpleStringProperty emailAdditional;
-    private SimpleStringProperty homepage;
+public class Contact /*implements Comparable<Contact>*/ {
+    public SimpleIntegerProperty id;
+    public SimpleStringProperty lastname;
+    public SimpleStringProperty firstname;
+    public SimpleStringProperty email;
+    public SimpleStringProperty emailAdditional;
+    public SimpleStringProperty homepage;
 
     public Contact(int id, String lastname, String firstname, String email, String emailAdditional, String homepage ) {
         this.id = new SimpleIntegerProperty(id);
@@ -70,6 +70,7 @@ public class Contact implements Comparable<Contact> {
         this.homepage = homepage;
     }
 
+/*
     @Override
     public int compareTo(Contact contact) {
         Collator collator = Collator.getInstance();
@@ -77,4 +78,5 @@ public class Contact implements Comparable<Contact> {
         String s2 = contact.getLastname() + ", " + contact.getFirstname();
         return collator.compare(s1, s2);
     }
+*/
 }

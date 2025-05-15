@@ -7,31 +7,24 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class Controller {
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ResourceBundle;
+
+public class Controller implements Initializable {
 
     private Model model = new Model();
     private ObservableList<Contact> contacts;
 
-    public void loadContacts() {
-        try {
-            contacts = model.loadContacts(ConnectionManager.getConnection().createStatement(), contacts);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        idColumn.setCellValueFactory(new PropertyValueFactory<Contact, String>("id"));
-        lastnameColumn.setCellValueFactory(new PropertyValueFactory<Contact, String>("lastname"));
-        firstnameColumn.setCellValueFactory(new PropertyValueFactory<Contact, String>("firstname"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<Contact, String>("email"));
-        homepageColumn.setCellValueFactory(new PropertyValueFactory<Contact, String>("homepage"));
-
-        contactTableView.setItems(contacts);
-    }
     @FXML
     private TableView<Contact> contactTableView;
 
@@ -45,7 +38,7 @@ public class Controller {
     private TableColumn<Contact, String> homepageColumn;
 
     @FXML
-    private TableColumn<Contact, String> idColumn;
+    private TableColumn<Contact, Integer> idColumn;
 
     @FXML
     private TableColumn<Contact, String> lastnameColumn;
@@ -56,5 +49,33 @@ public class Controller {
     @FXML
     public void closeButtonClick(ActionEvent actionEvent) {
         System.exit(0);
+    }
+    public void loadContacts(Statement statement) {
+        try {
+            contacts = model.loadContacts(statement, contacts);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
+        firstnameColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        homepageColumn.setCellValueFactory(new PropertyValueFactory<>("homepage"));
+
+        contactTableView.setItems(contacts);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            Connection connection = ConnectionManager.getConnection();
+            Statement statement = connection.createStatement();
+            loadContacts(statement);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

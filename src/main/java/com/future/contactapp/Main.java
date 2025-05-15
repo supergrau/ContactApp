@@ -19,9 +19,9 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("contact-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        Controller controller = new Controller();
+        //Controller controller = new Controller();
 
-        controller.loadContacts();
+        // controller.loadContacts();
 
         stage.setTitle("ContactApp");
         stage.setScene(scene);

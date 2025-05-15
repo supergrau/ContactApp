@@ -31,6 +31,7 @@ public class Model {
             System.out.println(id + " " + "lastname");
             contacts.add(new Contact(id, lastname, firstname, email, emailAdditional, homepage));
         }
+        contacts.add(new Contact(111,"Müller", "Martin", "mueller@gmail.com", "-","https://mueller.de"));
         return contacts;
     }
 }
