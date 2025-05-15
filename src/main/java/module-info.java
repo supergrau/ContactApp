@@ -10,5 +10,6 @@ module com.future.contactapp {
     exports com.future.contactapp;
     exports com.future.contactapp.controller;
     exports com.future.contactapp.model;
+//    opens com.future.contactapp.view to javafx.fxml;
     opens com.future.contactapp.controller to javafx.fxml;
 }

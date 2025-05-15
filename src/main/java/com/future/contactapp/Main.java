@@ -1,8 +1,6 @@
 package com.future.contactapp;
 
-import com.future.contactapp.controller.Controller;
 import com.future.contactapp.model.Contact;
-import com.future.contactapp.persistance.ConnectionManager;
 import com.future.contactapp.persistance.ContactBroker;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -11,17 +9,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.*;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Properties;
-
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("contact-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("view/contact-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         //Controller controller = new Controller();
 
