@@ -4,12 +4,14 @@ import com.future.contactapp.Main;
 import com.future.contactapp.model.Contact;
 import com.future.contactapp.model.Model;
 import com.future.contactapp.persistance.ConnectionManager;
+import com.future.contactapp.persistance.ContactBroker;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,6 +22,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchPoint;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -66,12 +69,11 @@ public class Controller implements Initializable {
     /**
      * Contacs in das TableView laden
      *
-     * @param statement mit der bestehenden Verbindung zur Datenbank
      */
-    public void loadContacts(Statement statement) {
+    public void loadContacts() {
         try {
             contacts = model.loadContacts(contacts);
-            statement.close();
+            ConnectionManager.closeConnection();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -116,8 +118,34 @@ public class Controller implements Initializable {
         Parent parent = loader.getRoot();
         Stage stage = new Stage();
         stage.setScene(new Scene(parent));
-        //stage.initStyle(StageStyle.);
-        stage.show();
+        stage.setResizable(false);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(((Node)event.getSource()).getScene().getWindow() );
+
+        stage.showAndWait();
+
+        // lade Contakte neu:
+//        try {
+//            contacts = model.loadContacts(contacts);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+        if (editViewController.save) {
+            System.out.println("Vor neu laden");
+            loadContacts();
+            System.out.println("contacts:");
+            for (Contact c : contacts) {
+                System.out.println(c.getLastname());
+            }
+            System.out.println("TableView:");
+            for (Contact c : contactTableView.getItems()) {
+
+                System.out.println(c.getLastname());
+            }
+        }
+        //contactTableView.setItems(contacts);
+ //       stage.close();
+
     }
 
     @FXML
@@ -130,14 +158,8 @@ public class Controller implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            Connection connection = ConnectionManager.getConnection();
-            Statement statement = connection.createStatement();
-            loadContacts(statement);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+//            Connection connection = ConnectionManager.getConnection();
+//            Statement statement = connection.createStatement();
+            loadContacts();
     }
 }

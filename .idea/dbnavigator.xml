@@ -52,9 +52,7 @@ select * from contact;]]></console>
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="a8ad78d7-627e-4adc-8ce6-b2ade3d838ff" object-ref="consoles/Connection" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="a8ad78d7-627e-4adc-8ce6-b2ade3d838ff" />

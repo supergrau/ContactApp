@@ -17,7 +17,7 @@ public class Model {
      * @return ObservableList von Typ Contact
      */
     public ObservableList<Contact> loadContacts(ObservableList<Contact> contacts) throws Exception {
-//        contacts = FXCollections.observableArrayList();
+        contacts = FXCollections.observableArrayList();
         contacts = FXCollections.observableList(ContactBroker.getInstance().findAll());
 
  /*       ResultSet resultSet = statement.executeQuery("SELECT * FROM contact");

@@ -26,20 +26,21 @@ public class Main extends Application {
          * Test des Datenabrufs mit Hilfe der Klasse ContactBroker
          * Die List kann einer ObservableList mit Casting zugewiesen werden
          */
-        try {
-            System.out.println("vor Datenabruftest");
-            ObservableList<Contact> olist = FXCollections.observableList(ContactBroker.getInstance().findAll());
-            for (Contact c: olist) {
-                System.out.println(c.getId() + " - " + c.getLastname());
-            }
-            System.out.println("nach Datenabruftest");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            System.out.println("vor Datenabruftest");
+//            ObservableList<Contact> olist = FXCollections.observableList(ContactBroker.getInstance().findAll());
+//            for (Contact c: olist) {
+//                System.out.println(c.getId() + " - " + c.getLastname());
+//            }
+//            System.out.println("nach Datenabruftest");
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
 
         stage.show();
 
     }
+
 
     public static void main(String[] args) {
         launch();
