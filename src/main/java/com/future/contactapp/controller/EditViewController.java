@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 public class EditViewController implements Initializable {
 
     public boolean save = false;
+    public boolean edit = true;
     @FXML
     private Button cancelButton;
 
@@ -80,7 +81,10 @@ public class EditViewController implements Initializable {
             );
 
             try {
-                ContactBroker.getInstance().update(contact);
+                if (edit)
+                    ContactBroker.getInstance().update(contact);
+                else
+                    ContactBroker.getInstance().insert(contact);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

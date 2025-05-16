@@ -41,6 +41,9 @@ public class Controller implements Initializable {
     private ObservableList<Contact> contacts;
 
     @FXML
+    private Button deleteButton;
+
+    @FXML
     private TableView<Contact> contactTableView;
 
     @FXML
@@ -68,7 +71,6 @@ public class Controller implements Initializable {
 
     /**
      * Contacs in das TableView laden
-     *
      */
     public void loadContacts() {
         try {
@@ -91,16 +93,104 @@ public class Controller implements Initializable {
 
     @FXML
     void contactTableViewClicked(MouseEvent event) {
-        int index = contactTableView.getSelectionModel().getSelectedIndex();
-        Contact contact = contactTableView.getSelectionModel().getSelectedItem();
-        String lastName = contactTableView.getItems().get(index).getLastname();
-        System.out.println("Mouse: index = " + index + " lastName" + contact.getLastname());
+        if (event.getClickCount() == 2) {
+            int index = contactTableView.getSelectionModel().getSelectedIndex();
+            Contact contact = contactTableView.getSelectionModel().getSelectedItem();
+//            String lastName = contactTableView.getItems().get(index).getLastname();
+//            System.out.println("Mouse: index = " + index + " lastName" + contact.getLastname());
 
-        // Aufbau des Dialoges edit-view:
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("view/edit-view.fxml"));
+            // Aufbau des Dialoges edit-view:
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/edit-view.fxml"));
 //        loader.setLocation(Controller.class.getResource("../view/edit-view.fxml"));
 
+            try {
+                loader.load();
+            } catch (IOException e) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+            }
+
+            EditViewController editViewController = loader.getController();
+            editViewController.setFields(
+                    contact.getId(),
+                    contact.getLastname(),
+                    contact.getFirstname(),
+                    contact.getEmail(),
+                    contact.getHomepage());
+
+            Parent parent = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(parent));
+            stage.setResizable(false);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(((Node) event.getSource()).getScene().getWindow());
+
+            editViewController.edit = true;
+            stage.showAndWait();
+
+            // lade Contakte neu:
+//        try {
+//            contacts = model.loadContacts(contacts);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+            if (editViewController.save) {
+                System.out.println("Vor neu laden");
+                loadContacts();
+                System.out.println("contacts:");
+                for (Contact c : contacts) {
+                    System.out.println(c.getLastname());
+                }
+                System.out.println("TableView:");
+                for (Contact c : contactTableView.getItems()) {
+
+                    System.out.println(c.getLastname());
+                }
+            }
+            //contactTableView.setItems(contacts);
+            //       stage.close();
+        }
+    }
+
+    @FXML
+    void tableViewKeyPressed(KeyEvent event) {
+        if (event.getCode() == KeyCode.SPACE) {
+            int index = contactTableView.getSelectionModel().getSelectedIndex();
+            System.out.println(index);
+            System.out.println("Key: " + contactTableView.getItems().get(index).getLastname());
+        }
+    }
+
+    @FXML
+    void deleteButtonClick(ActionEvent event) {
+        // Aktuellen Eintrag lesen und id ermitteln
+        Contact contact = contactTableView.getSelectionModel().getSelectedItem();
+        if(contact == null) return;
+        int id = contact.getId();
+
+        // Datensatz löschen:
+        try {
+            ContactBroker.getInstance().delete(id);
+            loadContacts();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+//            Connection connection = ConnectionManager.getConnection();
+//            Statement statement = connection.createStatement();
+        loadContacts();
+        // den ersten Eintrag der Liste auswählen:
+
+    }
+
+    @FXML
+    public void insertButtonClick(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("view/edit-view.fxml"));
         try {
             loader.load();
         } catch (IOException e) {
@@ -108,28 +198,16 @@ public class Controller implements Initializable {
         }
 
         EditViewController editViewController = loader.getController();
-        editViewController.setFields(
-                contact.getId(),
-                contact.getLastname(),
-                contact.getFirstname(),
-                contact.getEmail(),
-                contact.getHomepage());
-
         Parent parent = loader.getRoot();
         Stage stage = new Stage();
         stage.setScene(new Scene(parent));
         stage.setResizable(false);
         stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(((Node)event.getSource()).getScene().getWindow() );
+        stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
 
+        editViewController.edit = false;
         stage.showAndWait();
 
-        // lade Contakte neu:
-//        try {
-//            contacts = model.loadContacts(contacts);
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
         if (editViewController.save) {
             System.out.println("Vor neu laden");
             loadContacts();
@@ -143,23 +221,7 @@ public class Controller implements Initializable {
                 System.out.println(c.getLastname());
             }
         }
-        //contactTableView.setItems(contacts);
- //       stage.close();
 
-    }
 
-    @FXML
-    void tableViewKeyPressed(KeyEvent event) {
-        if(event.getCode() == KeyCode.SPACE) {
-            int index = contactTableView.getSelectionModel().getSelectedIndex();
-            System.out.println(index);
-            System.out.println("Key: " + contactTableView.getItems().get(index).getLastname());
-        }
-    }
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-//            Connection connection = ConnectionManager.getConnection();
-//            Statement statement = connection.createStatement();
-            loadContacts();
     }
 }
